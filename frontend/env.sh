@@ -1,1 +1,1 @@
-export REACT_API_ROUTE=http://localhost:8000/
+export REACT_APP_API_ROUTE="http://localhost:8000/"

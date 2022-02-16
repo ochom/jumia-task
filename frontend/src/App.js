@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "./App.css";
 
+const API_ROUTE = process.env.REACT_APP_API_ROUTE;
+
 const columns = [
   { name: "Country", selector: (row) => row.Country },
   { name: "Code", selector: (row) => row.Code },
@@ -19,7 +21,7 @@ function App() {
   useEffect(() => {
     // get countries
     Axios({
-      url: `http://localhost:8000/api/countries`,
+      url: `${API_ROUTE}api/countries`,
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -34,7 +36,7 @@ function App() {
 
     // get  numbers
     Axios({
-      url: `http://localhost:8000/api/numbers/${country}/${state}`,
+      url: `${API_ROUTE}api/numbers/${country}/${state}`,
       method: "GET",
       headers: {
         "Content-type": "application/json",
