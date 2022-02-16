@@ -7,8 +7,8 @@ const API_ROUTE = process.env.REACT_APP_API_ROUTE;
 
 const columns = [
   { name: "Country", selector: (row) => row.Country },
-  { name: "Code", selector: (row) => row.Code },
   { name: "State", selector: (row) => row.State },
+  { name: "Country code", selector: (row) => row.Code },
   { name: "Phone", selector: (row) => row.Phone },
 ];
 
