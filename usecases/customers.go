@@ -10,8 +10,7 @@ import (
 
 // CustomersUsecase ...
 type CustomersUsecase interface {
-	GetAll(ctx context.Context) ([]dto.FormattedNumber, error)
-	GetByCountry(ctx context.Context, code string) ([]dto.FormattedNumber, error)
+	GetNumbers(ctx context.Context, code, state string) (resp []*dto.FormattedNumber, err error)
 }
 
 type impl struct {
@@ -25,36 +24,30 @@ func New(repo database.Repository) CustomersUsecase {
 	}
 }
 
-func (uc *impl) GetAll(ctx context.Context) ([]dto.FormattedNumber, error) {
+func (uc *impl) GetNumbers(ctx context.Context, code, state string) (resp []*dto.FormattedNumber, err error) {
 	customers, err := uc.repo.GetAllNumbers(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	formattedNumbers := []dto.FormattedNumber{}
+	// if country code not all and not empty
+	if code != "all" && code != "" {
+		customers = utils.FilterInCountry(code, customers)
+	}
 
-	for _, customer := range customers {
-		formattedNumber := utils.FormatNumber(*customer)
-		if formattedNumber != nil {
-			formattedNumbers = append(formattedNumbers, *formattedNumber)
+	formattedNumbers := utils.FormatNumbers(customers)
+
+	// get numbers based on state
+	if state == "all" || state == "" {
+		resp = formattedNumbers
+		return
+	}
+
+	for _, v := range formattedNumbers {
+		formtedNumber := *v
+		if formtedNumber.State == state {
+			resp = append(resp, &formtedNumber)
 		}
 	}
-
-	return formattedNumbers, nil
-}
-
-func (uc *impl) GetByCountry(ctx context.Context, code string) ([]dto.FormattedNumber, error) {
-	validNumbers, err := uc.GetAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	inCountry := []dto.FormattedNumber{}
-	for _, v := range validNumbers {
-		if v.Code == "+"+code {
-			inCountry = append(inCountry, v)
-		}
-	}
-
-	return inCountry, nil
+	return
 }

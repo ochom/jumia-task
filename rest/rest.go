@@ -5,16 +5,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ochom/jumia-interview-task/database"
+	"github.com/ochom/jumia-interview-task/models"
 	"github.com/ochom/jumia-interview-task/usecases"
 )
 
 // Handler abstracts methods implemented for rest requests
 type Handler interface {
+	// GetCountries get a list of all countries
+	GetCountries() gin.HandlerFunc
+
 	// GetPhonenumbers gets all phone numbers
 	GetPhonenumbers() gin.HandlerFunc
-
-	// GetCountryPhoneNumbers gets all valid phone numbers in a country
-	GetCountryPhoneNumbers() gin.HandlerFunc
 }
 
 type impl struct {
@@ -29,33 +30,23 @@ func New(repo database.Repository) Handler {
 	}
 }
 
-func (h *impl) GetPhonenumbers() gin.HandlerFunc {
+func (h *impl) GetCountries() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		res, err := h.uc.GetAll(c)
-		if err != nil {
-			c.String(http.StatusBadRequest, err.Error())
-			return
-		}
-
-		c.JSON(http.StatusOK, res)
+		c.JSON(http.StatusOK, models.AllCountries)
 	}
 }
 
-func (h *impl) GetCountryPhoneNumbers() gin.HandlerFunc {
+func (h *impl) GetPhonenumbers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		code := c.Param("code")
-		if code == "" {
-			c.String(http.StatusBadRequest, "country `code` is required")
-			return
-		}
+		state := c.Param("state")
 
-		res, err := h.uc.GetByCountry(c, code)
+		res, err := h.uc.GetNumbers(c, code, state)
 		if err != nil {
 			c.String(http.StatusBadRequest, err.Error())
 			return
 		}
 
 		c.JSON(http.StatusOK, res)
-
 	}
 }
