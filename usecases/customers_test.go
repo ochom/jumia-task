@@ -6,13 +6,11 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ochom/jumia-interview-task/database"
 	"github.com/ochom/jumia-interview-task/database/mock"
 	"github.com/ochom/jumia-interview-task/models"
 	"github.com/ochom/jumia-interview-task/models/dto"
 )
 
-var repo database.Repository
 var fakeRepo mock.FakeRepository
 
 func Test_impl_GetNumbers(t *testing.T) {

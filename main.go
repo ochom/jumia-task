@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ochom/jumia-interview-task/database"
@@ -44,5 +45,8 @@ func main() {
 		api.GET("/numbers/:code/:state", h.GetPhonenumbers())
 	}
 
-	server.Run(fmt.Sprintf(":%s", utils.GetEnv("PORT", "8000")))
+	err = server.Run(fmt.Sprintf(":%s", utils.GetEnv("PORT", "8000")))
+	if err != nil {
+		log.Fatalf("server failed to launch: %s", err.Error())
+	}
 }
