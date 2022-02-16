@@ -7,7 +7,7 @@ const API_ROUTE = process.env.REACT_APP_API_ROUTE;
 
 const columns = [
   { name: "Country", selector: (row) => row.Country },
-  { name: "State", selector: (row) => row.State },
+  { name: "State", selector: (row) => row.State, width: "80px" },
   { name: "Country code", selector: (row) => row.Code },
   { name: "Phone", selector: (row) => row.Phone },
 ];
@@ -53,6 +53,7 @@ function App() {
   return (
     <div className="container">
       <div className="body">
+        <h2>Phone Numbers</h2>
         <div className="controls">
           <div>
             <label>Country</label>
