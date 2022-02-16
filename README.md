@@ -9,7 +9,6 @@ This task has two parts
 ## Running the application
 
 ### Backend
-
 - `cd` into project root
 - run
   ```sh
@@ -19,7 +18,6 @@ This task has two parts
   ```
 
 ## Frontend
-
 - `cd` into project/frontend
 - run
 
@@ -28,5 +26,7 @@ This task has two parts
   $ source env.sh
   $ yarn start
   ```
-
+  
 - head over to http://localhost:3000/ on your browser
+![Screenshot from 2022-02-17 02-12-04](https://user-images.githubusercontent.com/51450020/154373174-4a8a266b-8bf2-44cf-b053-55f54cbd42ae.png)
+
